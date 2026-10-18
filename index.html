@@ -21,6 +21,8 @@ h3.section{text-align:center;color:var(--mint);letter-spacing:3px;margin:26px 0 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--card-w),1fr));gap:18px 14px;max-width:1080px;margin:0 auto}
 .slot{display:flex;flex-direction:column;align-items:center;gap:7px}
 .cap{font-size:12.5px;color:var(--dim);letter-spacing:.5px;text-align:center}
+.meaning{display:none;width:100%;font-size:13.5px;line-height:1.5;color:var(--ink);background:rgba(13,43,77,.88);border:1px solid rgba(255,217,77,.45);border-radius:10px;padding:9px 11px}
+.slot.open .meaning{display:block}
 .pos{font-size:12px;color:var(--mint);letter-spacing:2px;text-transform:uppercase}
 .card{width:var(--card-w);aspect-ratio:2/3;perspective:900px;cursor:pointer}
 .card.big{--card-w:170px;width:170px}
@@ -75,8 +77,10 @@ function makeCard(card, opts){
   else { const s = document.createElement('div'); s.className='soon'; s.textContent = 'Still on the press…'; back.appendChild(s); }
   inner.appendChild(front); inner.appendChild(back); c.appendChild(inner); wrap.appendChild(c);
   const cap = document.createElement('div'); cap.className='cap'; cap.textContent = card.title; wrap.appendChild(cap);
+  const m = document.createElement('div'); m.className='meaning'; m.textContent = card.meaning; wrap.appendChild(m);
   c.addEventListener('click', () => {
     c.classList.toggle('flipped');
+    wrap.classList.toggle('open', c.classList.contains('flipped'));
     if(c.classList.contains('flipped')) showMeaning(card.title, card.meaning, opts.pos || null);
   });
   return wrap;
